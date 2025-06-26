@@ -20,7 +20,7 @@ export const Experience = () => {
       />
       <OrbitControls />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
+        <planeGeometry args={[200, 200]} />
         <meshStandardMaterial color={"#e0e0e0"} />
       </mesh>
       <ContactShadows
