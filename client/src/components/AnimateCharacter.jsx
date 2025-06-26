@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useGLTF, useAnimations, Center } from "@react-three/drei";
+import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
 import { useFrame, useGraph } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
@@ -31,11 +31,9 @@ export function AnimateCharacter() {
   });
 
   const clonedScene = useMemo(() => SkeletonUtils.clone(scene), [scene]);
-  const { nodes, materials } = useGraph(clonedScene);
 
   const { actions } = useAnimations(animations, group);
-  console.log(actions);
-  const [animation, setAnimation] = useState("Rig|Sword_Idle");
+  // console.log(actions);
 
   useEffect(() => {
     const unsubscribe = subscribeKeys(() => {
