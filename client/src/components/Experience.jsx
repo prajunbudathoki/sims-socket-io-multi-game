@@ -16,7 +16,7 @@ export const Experience = () => {
         intensity={1.2}
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.0001}
+        shadow-bias={-0.011}
       />
       <OrbitControls />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]} receiveShadow>

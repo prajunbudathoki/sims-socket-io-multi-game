@@ -7,12 +7,12 @@ function App() {
     <KeyboardControls
       map={[
         { name: "forward", keys: ["w", "ArrowUp"] },
-        { name: "forward", keys: ["s", "ArrowDown"] },
-        { name: "forward", keys: ["a", "ArrowLeft"] },
-        { name: "forward", keys: ["d", "ArrowRight"] },
+        { name: "backward", keys: ["s", "ArrowDown"] },
+        { name: "left", keys: ["a", "ArrowLeft"] },
+        { name: "right", keys: ["d", "ArrowRight"] },
       ]}
     >
-      <Canvas shadows camera={{ position: [0, 2, 5], fov: 30 }}>
+      <Canvas shadows camera={{ position: [110, 112, 115], fov: 30 }}>
         <Experience />
       </Canvas>
     </KeyboardControls>

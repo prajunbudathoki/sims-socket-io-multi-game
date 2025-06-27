@@ -12,21 +12,23 @@ export function AnimateCharacter() {
 
   useFrame((state, delta) => {
     const { forward, backward, left, right } = getKeys();
+    const velocity = new Three.Vector3();
 
-    const direction = new Three.Vector3();
-    if (forward) direction.z -= 1;
-    if (backward) direction.z += 1;
-    if (left) direction.x -= 1;
-    if (right) direction.x += 1;
+    if (forward) velocity.z -= 1;
+    if (backward) velocity.z += 1;
+    if (left) velocity.x -= 1;
+    if (right) velocity.x += 1;
 
-    direction.normalize().multiplyScalar(2 * delta);
+    if (velocity.length() > 0) {
+      velocity.normalize().multiplyScalar(2 * delta);
+      group.current.position.add(velocity);
 
-    if (group.current) {
-      group.current.position.add(direction);
-
-      if (direction.length() > 0) {
-        group.current.rotation.y = Math.atan2(direction.x, direction.z);
-      }
+      const targetRotation = Math.atan2(velocity.x, velocity.z);
+      group.current.rotation.y = Three.MathUtils.lerp(
+        group.current.rotation.y,
+        targetRotation,
+        0.1
+      );
     }
   });
 
@@ -40,7 +42,7 @@ export function AnimateCharacter() {
       const { forward, backward, left, right } = getKeys();
       const moving = forward || backward || left || right;
 
-      const actionName = moving ? "Rig|Walk_Loop" : "Rig|Sword_Idle";
+      const actionName = moving ? "Rig|Jog_Fwd_Loop" : "Rig|Sword_Idle";
       if (actions && actions[actionName]) {
         Object.values(actions).forEach((a) => a.stop());
         actions[actionName].reset().fadeIn(0.2).play();
