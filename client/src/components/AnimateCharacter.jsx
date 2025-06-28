@@ -6,28 +6,38 @@ import { useKeyboardControls } from "@react-three/drei";
 import * as THREE from "three";
 import { SniperGun } from "./SniperGun";
 
-export function AnimateCharacter() {
+export function AnimateCharacter({
+  position = [0, 0.5, 0],
+  rotationY = 0,
+  animation,
+  isRemote = false,
+}) {
   const group = useRef();
+  const sniperRef = useRef();
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const { scene, animations } = useGLTF("/models/character.glb");
 
   const clonedScene = useMemo(() => SkeletonUtils.clone(scene), [scene]);
-  // console.log("cloned", clonedScene);
-
   const { actions } = useAnimations(animations, group);
-  const sniperRef = useRef();
 
   useEffect(() => {
     const rightHand = clonedScene.getObjectByName("DEF-handR");
     if (rightHand && sniperRef.current) {
       rightHand.add(sniperRef.current);
-      sniperRef.current.position.set(0, 10, 10);
-      sniperRef.current.rotation.set(10, 20, 0);
-      sniperRef.current.scale.set(0.02, 0.02, 0.02);
+      sniperRef.current.position.set(0, 0, 0);
+      sniperRef.current.rotation.set(-10, -10, 80);
+
+      // sniperRef.current.rotation.set(
+      //   THREE.MathUtils.degToRad(100),
+      //   THREE.MathUtils.degToRad(0),
+      //   THREE.MathUtils.degToRad(100)
+      // );
+      sniperRef.current.scale.set(0.002, 0.002, 0.002);
     }
   }, [clonedScene]);
 
   useFrame((state, delta) => {
+    if (isRemote) return;
     const { forward, backward, left, right } = getKeys();
     const velocity = new THREE.Vector3();
 
@@ -69,8 +79,14 @@ export function AnimateCharacter() {
   }, [actions, isMoving]);
 
   return (
-    <group ref={group} scale={10} position={[0, 0.5, 0]} castShadow>
-      <primitive object={clonedScene} ref={sniperRef} />
+    <group
+      ref={group}
+      scale={10}
+      position={position}
+      rotation={[0, rotationY, 0]}
+      castShadow
+    >
+      <primitive object={clonedScene} />
       <SniperGun ref={sniperRef} />
     </group>
   );
