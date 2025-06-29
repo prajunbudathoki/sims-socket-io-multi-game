@@ -5,6 +5,7 @@ import {
   OrbitControls,
 } from "@react-three/drei";
 import { AnimateCharacter } from "./AnimateCharacter";
+import { Barrel } from "./Barrel";
 
 export const Experience = () => {
   return (
@@ -32,6 +33,12 @@ export const Experience = () => {
       />
       <Grid infiniteGrid cellSize={1} sectionSize={5} />
       <AnimateCharacter />
+      <Barrel position={[8, 0, -12]} scale={90.5} />
+      <Barrel
+        position={[-14, 0, -6]}
+        scale={95.4}
+        rotation={[0, Math.PI / 2, 0]}
+      />
     </>
   );
 };
